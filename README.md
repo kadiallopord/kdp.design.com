@@ -1,41 +1,68 @@
-# Next.js on Netlify Platform Starter
+# SAMMEERE JIME
 
-[Live Demo](https://nextjs-platform-starter.netlify.app/)
+**Écoutez • Regardez • Découvrez**
 
-A modern starter based on Next.js 14 (App Router), Tailwind, and [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop) (Edge Functions, Image CDN, Blob Store).
+Application mobile (Android / iOS) de streaming musical et culturel consacrée à la musique africaine, en particulier la musique et le rap Pulaar. Construite avec Expo (SDK 58), React Native et Expo Router.
 
-In this site, Netlify Core Primitives are used both implictly for running Next.js features (e.g. Route Handlers, image optimization via `next/image`, and more) and also explicitly by the user code.
+## Ce que contient la version 0.1
 
-Implicit usage means you're using any Next.js functionality and everything "just works" when deployed - all the plumbing is done for you. Explicit usage is framework-agnostic and typically provides more features than what Next.js exposes.
+| Écran | Fonctionnel aujourd'hui |
+| --- | --- |
+| **Accueil** | Bannière « sortie exclusive », recherche, recommandations personnalisées, nouveautés, albums populaires, artistes recommandés, clips récents, tendances, sorties exclusives |
+| **Musique** | Tous les titres, albums, playlists (créer, renommer, supprimer, ajouter / retirer des titres), favoris |
+| **Radio** | 6 stations (Sammeere Jime, Rap Pulaar, Sénégal, Afrique, Afrobeat, Musique traditionnelle), émission en cours et grille du jour |
+| **Vidéos** | Clips, exclusivités, interviews, événements, avec lecteur vidéo (plein écran, image dans l'image) |
+| **Classements** | Top 10 titres, Top 10 artistes, artistes en progression, albums les plus vendus, tendances de la semaine |
+| **Profil** | Statistiques d'écoute, écoutés récemment, artistes suivis |
+| **Lecteur** | Lecture / pause, suivant / précédent, barre de progression, aléatoire, répétition, file d'attente, mini‑lecteur permanent, **écoute en arrière-plan** et contrôles sur l'écran verrouillé |
+| **Album / Artiste** | Pages détaillées, bouton Suivre, biographie, réseaux sociaux, prix et précommande |
 
-## Deploying to Netlify
+Favoris, playlists, abonnements et historique d'écoute sont **enregistrés sur l'appareil** (AsyncStorage) et survivent à la fermeture de l'app.
 
-This site requires [Netlify Next Runtime v5](https://docs.netlify.com/frameworks/next-js/overview/) for full functionality. That version is now being gradually rolled out to all Netlify accounts.
+## Suppositions (à valider)
 
-After deploying via the button below, please visit the **Site Overview** page for your new site to check whether it is already using the v5 runtime. If not, you'll be prompted to opt-in to to v5.
+1. **Catalogue fictif.** Les artistes, albums et titres sont inventés pour la démonstration. Les sons sont des échantillons libres (SoundHelix) et les vidéos des clips de test Google. Ils seront remplacés par les vrais contenus.
+2. **Radios.** Les flux pointent vers des fichiers de test. Il faut les vraies URL de diffusion (Icecast/Shoutcast) de chaque station.
+3. **Classements.** Calculés à partir des écoutes de démonstration + des écoutes réelles faites sur l'appareil. Les vrais chiffres globaux viendront du serveur.
+4. **Pochettes générées** (dégradé + initiales) en attendant les vraies images.
+5. **Pas encore de compte ni de paiement.** Connexion, Premium, hors ligne, achats Wave / Orange Money, espace artiste et administration sont prévus pour les étapes suivantes (boutons visibles mais désactivés).
+6. **Identifiant de l'app** : `com.sammeerejime.app` (modifiable avant publication sur les stores).
+7. **Prix d'exemple** en FCFA, répartition 85 % artiste / 15 % plateforme affichée.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-platform-starter)
+## Lancer l'application
 
-## Developing Locally
-
-1. Clone this repository, then run `npm install` in its root directory.
-
-2. For the starter to have full functionality locally (e.g. edge functions, blob store), please ensure you have an up-to-date version of Netlify CLI. Run:
-
-```
-npm install netlify-cli@latest -g
-```
-
-3. Link your local repository to the deployed Netlify site. This will ensure you're using the same runtime version for both local development and your deployed site.
-
-```
-netlify link
-```
-
-4. Then, run the Next.js development server via Netlify CLI:
-
-```
-netlify dev
+```bash
+npm install
+npx expo start        # puis scanner le QR code
 ```
 
-If your browser doesn't navigate to the site automatically, visit [localhost:8888](http://localhost:8888).
+L'écoute en arrière-plan et les contrôles de l'écran verrouillé nécessitent un **build de développement** (pas Expo Go) :
+
+```bash
+npx expo run:android   # ou run:ios
+# ou dans le cloud : npx eas-cli@latest build --profile development
+```
+
+Vérifications : `npx tsc --noEmit`.
+
+## Organisation du code
+
+```
+src/
+  app/                 écrans (Expo Router)
+    (tabs)/            Accueil, Musique, Radio, Vidéos, Classements, Profil
+    lecteur.tsx        lecteur plein écran
+    album/ artiste/ playlist/ video/ ajouter/ recherche.tsx
+  components/          éléments d'interface réutilisables
+  data/                catalogue de démonstration, classements, recommandations
+  state/               lecteur audio et bibliothèque (favoris, playlists…)
+  theme/               couleurs noir / or / blanc
+```
+
+## Prochaines étapes proposées
+
+1. Backend (Supabase ou équivalent) : comptes, base de données, stockage des fichiers audio et vidéo.
+2. Paiements Wave et Orange Money, achats, précommandes, Premium.
+3. Mode hors ligne chiffré (sans téléchargement libre des fichiers).
+4. Espace artiste (dépôt de titres, revenus 85 / 15, retraits) et tableau de bord administrateur.
+5. Communauté et notifications.
