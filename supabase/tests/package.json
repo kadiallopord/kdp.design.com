@@ -1,0 +1,11 @@
+{
+  "name": "sammeere-jime-backend-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test parcours.test.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0"
+  }
+}
